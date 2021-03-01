@@ -1,0 +1,27 @@
+{
+  "name": "random-joke",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "eslint ./src --fix",
+    "test": "echo \"Tests complete\"",
+    "start": "node ./src/index.js",
+    "nodemon": "nodemon ./src/index.js -e js,html,css",
+    "chromeinspect": "echo \"Now in DEBUG mode. Head to 'chrome://inspect'\";node --inspect ./src/index.js",
+    "kill3000": "npx kill-port 3000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.19.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "underscore": "^1.12.0"
+  }
+}

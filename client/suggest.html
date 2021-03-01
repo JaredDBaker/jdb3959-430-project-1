@@ -1,0 +1,90 @@
+<html>
+  <head>
+    <title>What If Suggest</title>
+    <link href="default-styles.css" type="text/css" rel="stylesheet" />
+    <script>
+        "use strict";
+        const handleResponse = (e) => {
+     const xhr = e.target;
+     const response = document.querySelector('#response');
+     
+     switch(xhr.status){
+       case 200:
+         response.innerHTML = '<b>Success!</b>';
+         break;
+       case 201:
+         response.innerHTML = '<b>Created!</b>';
+         break;
+       case 204:
+         response.innerHTML = '<b>Updated (No Content)!</b>';
+         break;
+       case 400:
+         response.innerHTML = '<b>Bad Request!</b>';
+         break;
+       default:
+         response.innerHTML = '<b>Error code not implemented by client</b>';
+     }
+     
+     // make sure that something is in the .response property first!
+     const obj = xhr.response && JSON.parse(xhr.response);
+     console.dir(obj);
+     if(obj.message){
+        response.innerHTML += `<p>id = ${obj.id}</p><p>message = ${obj.message}</p>`;
+     }
+   };
+ 
+   const sendPost = (e) => {
+     const questionField = document.querySelector("#questionField");
+     const authorField = document.querySelector("#authorField");
+     const formData = `question=${questionField.value}&author=${authorField.value}`;
+     console.log(formData);
+     const xhr = new XMLHttpRequest();
+     xhr.onload = handleResponse;
+     xhr.open("POST","/add-what-if"); // hard-coding HTTP method and url
+     xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+     xhr.send(formData);
+   };
+ 
+   // `onclick` instead of `onsubmit`
+   const init = () => {
+     document.querySelector('#submitBtn').onclick = sendPost;
+   };
+ 
+   window.onload = init;
+ 
+</script>
+  </head>
+  <body>
+    <header>
+        <nav>
+            <a href="/home">Home</a>
+            |
+            <a href="/app">App</a>
+            |
+            <span id="current">Suggest</span>
+            |
+            <a href="/admin">Admin</a>
+        </nav>
+      <img src = '/triple' alt="What if repeated 3 times in different fonts">
+    </header>
+    <main>
+        <h2>Suggest a What If!</h2>
+
+        <p>Enter a new What if question:</p>
+        <p>
+            <label for="questionField">What If Question:</label>
+            <input id="questionField" type="text">
+        </p>
+        <p>
+            <label for="authorField">Author Name:</label>
+            <input id="authorField" type="text">
+        </p>
+        <input id="submitBtn" type="button" value="Submit What If">
+        <section id="response"></section>
+    </main>
+
+
+
+    
+  </body>
+</html>
