@@ -2,6 +2,52 @@
   <head>
     <title>What If Admin</title>
     <link href="default-styles.css" type="text/css" rel="stylesheet" />
+    <script>
+      const handleResponse = (e) => {
+          //console.log("e.target =", e.target); // here, `e.target` is the xhr object
+          //console.log("e.target.response = ", e.target.response); // so that mean this is a string of "joke" JSON
+          const obj = JSON.parse(e.target.response); // turn it back into an object
+          //console.log("obj=", obj);
+          // now go ahead and update #jokeContainewr with the contents of the joke
+        let whatIf = document.querySelector("#whatIfContainer");
+
+          whatIf.innerHTML ="";
+          for(let k = 0; k < obj.length; k+=1){
+            whatIf.innerHTML += `
+            <h3>${obj[k].q}</h3>
+            <h4>Author: ${obj[k].author}</h4>
+            <hr>
+            `;
+            if(obj[k].a.length > 0){
+              for(let i = 0; i < obj[k].a.length; i+=1){
+                whatIf.innerHTML += `<p>${obj[k].a[i]}</p><hr>`;
+              }
+            }
+          }
+      }
+  
+    const downloadWhatIf = (e) => {
+      // remember that an `Event` object gets passed along every time that an event handler or listener calls a function
+      // the `target` property of that event points at the element that sent the event, in this case a button
+      //console.log(`An element of id=${e.target.id} was clicked!`);
+      let whatIfURL = "/what-if-list?limit=10";
+
+      const xhr = new XMLHttpRequest();
+      xhr.onload = handleResponse;
+      xhr.open("GET", whatIfURL);
+      // with XHR, after we open a connection, but before we `send()`, we can set 1 or more HTTP request headers
+      // this isn't strictly necessary because "/random-joke" sends JSON by default]
+      xhr.setRequestHeader('Accept', "application/javascript");
+      xhr.send();
+    }
+    
+    const init = () => {
+      downloadWhatIf();
+    }
+    
+    window.onload = init;
+   
+  </script>
   </head>
   <body>
     <header>
@@ -19,7 +65,9 @@
     <main>
         <h3>What if Admin Page</h3>
     </main>
-
+    <div id="whatIfContainer">
+        
+    </div>
     
   </body>
 </html>

@@ -10,11 +10,11 @@
             console.log("obj=", obj);
             // now go ahead and update #jokeContainewr with the contents of the joke
           let whatIf = document.querySelector("#whatIfContainer");
-          let whatIfList = document.querySelector("#WhatIfListContainer");
+
           if(e.target.responseURL.includes('list')){
-            whatIfList.innerHTML ="";
+            whatIf.innerHTML ="";
             for(let k = 0; k < obj.length; k+=1){
-              whatIfList.innerHTML += `
+              whatIf.innerHTML += `
               <h3>${obj[k].q}</h3>
               <h4>Author: ${obj[k].author}</h4>
               <hr>
@@ -94,19 +94,12 @@
     
     <section>
       <h2>Find a What if?</h2>
-      <p><button id="btnWhatIf">Find me a Question!</button></p>
+      <p><button id="btnWhatIf">Find me a Question!</button> <button id ="btnWhatIfList">Show me a What if list!</button></p>
       <div id="whatIfContainer">
         
       </div>
     </section>
     
-    <section>
-      <h2>How about list of what ifs?</h2>
-      <p><button id ="btnWhatIfList">Show me a What if list!</button></p>
-      <div id="WhatIfListContainer">
-        
-      </div>
-    </section>
     
   </body>
 </html>

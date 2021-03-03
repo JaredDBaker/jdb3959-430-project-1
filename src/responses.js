@@ -62,7 +62,7 @@ const getManyWhatIfsJSON = (limit = 1, xml) => {
     responseXML = `${responseXML} </jokes>`;
     return responseXML;
   }
-  return JSON.stringify(shuffled);
+  return JSON.stringify(whatIfs);
 };
 
 const getWhatIfResponse = (request, response, params, acceptedTypes, httpMethod) => {
@@ -136,19 +136,14 @@ const addWhatIf = (request, response, body) => {
     message: 'question and author are both required',
   };
 
-  // missing name or age?
+  // missing question or author?
   if (!body.question || !body.author) {
     return sendJSONResponse(request, response, responseCode, responseJSON);
   }
 
-  // we DID get a name and age
-  // if (whatIfs[body.question]) { // if the user exists
-  //   responseCode = 204;
-  //   whatIfs[body.name].a = body.age; // update
-  //   return sendJSONResponseMeta(request, response, responseCode);
-  // }
+  // we DID get a question and author
 
-  // if the user does not exist
+  // if the question does not exist
   whatIfs.push({ q: body.question, author: body.author, a: [] }); // make a new user
   // initialize values
 
