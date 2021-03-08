@@ -19,6 +19,7 @@ const urlStruct = {
   '/what-if': jsonHandler.getWhatIfResponse,
   '/what-if-list': jsonHandler.getManyWhatIfsResponse,
   '/add-what-if': jsonHandler.addWhatIf,
+  '/add-answer': jsonHandler.addAnswer,
   '/app': htmlHandler.getClient,
   '/admin': htmlHandler.getAdmin,
   '/suggest': htmlHandler.getSuggest,
@@ -28,9 +29,8 @@ const urlStruct = {
 };
 
 const handlePost = (request, response, parsedUrl) => {
+  const body = [];
   if (parsedUrl.pathname === '/add-what-if') {
-    const body = [];
-
     // https://nodejs.org/api/http.html
     request.on('error', (err) => {
       console.dir(err);
@@ -46,6 +46,24 @@ const handlePost = (request, response, parsedUrl) => {
       const bodyString = Buffer.concat(body).toString();
       const bodyParams = query.parse(bodyString);
       jsonHandler.addWhatIf(request, response, bodyParams);
+    });
+  } else if (parsedUrl.pathname === '/add-answer') {
+    const params = query.parse(parsedUrl.query);
+
+    request.on('error', (err) => {
+      console.dir(err);
+      response.statusCode = 400;
+      response.end();
+    });
+
+    request.on('data', (chunk) => {
+      body.push(chunk);
+    });
+
+    request.on('end', () => {
+      const bodyString = Buffer.concat(body).toString();
+      const bodyParams = query.parse(bodyString);
+      jsonHandler.addAnswer(request, response, bodyParams, params);
     });
   }
 };
