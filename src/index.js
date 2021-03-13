@@ -19,6 +19,7 @@ const urlStruct = {
   '/what-if': jsonHandler.getWhatIfResponse,
   '/what-if-list': jsonHandler.getManyWhatIfsResponse,
   '/add-what-if': jsonHandler.addWhatIf,
+  '/delete-what-if': jsonHandler.deleteWhatIf,
   '/add-answer': jsonHandler.addAnswer,
   '/app': htmlHandler.getClient,
   '/admin': htmlHandler.getAdmin,

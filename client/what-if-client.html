@@ -19,11 +19,15 @@
             whatIf.innerHTML ="";
             for(let k = 0; k < obj.length; k+=1){
               whatIf.innerHTML += `
+              <div id="whatIfCon">
               <h3>${obj[k].q}</h3>
               <h4>Author: ${obj[k].author}</h4>
+              <a href="/what-if?id=${obj[k].id}">Look at Question</a>
+              </div>
               <hr>
               `;
             }
+            answerDiv.style.display = "none";
           }
           else{
             whatIf.innerHTML = `
@@ -32,12 +36,16 @@
             <hr>
             <h4>Answers</h4>
             `;
+            let answerDiv = document.querySelector("#answerDiv");
             for(let i = 0; i < obj.a.length; i+=1){
               whatIf.innerHTML += `<p>${obj.a[i]}</p><hr>`;
             }
+            // adapted from w3 school tutorial
+            if(answerDiv.style.display === "none"){
+              answerDiv.style.display = "block";
+            }
           }
       };
-
       const handleAnswer = (e) => {
         const xhr = e.target;
           const content = document.querySelector('#response');
@@ -58,20 +66,21 @@
             default:
               content.innerHTML = '<b>Error code not implemented by client</b>';
           }
-          this.downloadWhatIf();
+          downloadWhatIf();
           // make sure that something is in the .response property first!
           const mes = xhr.response && JSON.parse(xhr.response);
           console.dir(mes);
           if(mes.message){
             content.innerHTML += `<p>${mes.message}</p>`;
-          }
+          };
       };
  
       const sendPost = (e) => {
         if(currentID === null){return;}
-        const questionField = document.querySelector("#answerField");
+        const answerField = document.querySelector("#answerField");
         //const authorField = document.querySelector("#authorField");
         const formData = `answer=${answerField.value}`;
+        answerField.value = '';
         console.log(formData);
         const xhr = new XMLHttpRequest();
         xhr.onload = handleAnswer;
@@ -114,7 +123,7 @@
       const init = () => {
          // An Event *Handler*
         // document.querySelector("#btnJoke").onclick = downloadJoke; // same as below, less typing, use which ever version you prefer
-      
+        answerDiv.style.display = "none";
         // An Event *Listener*
         document.querySelector("#btnWhatIf").addEventListener("click", downloadWhatIf);
         document.querySelector("#btnWhatIfList").addEventListener("click", downloadWhatIf);
@@ -126,6 +135,7 @@
       window.onload = init;
      
     </script>
+
   </head>
   <body>
     <header>
@@ -147,14 +157,16 @@
       <div id="whatIfContainer">
         
       </div >
+      <div id="answerDiv">
         <label for="answerField">Give an Answer:</label>
         <textarea id="answerField" type="text"></textarea>
         <button id="answerBtn">Sumbit Answer</button>
+      </div>
+
       <div id="response">
 
       </div>
     </section>
-    
     
   </body>
 </html>

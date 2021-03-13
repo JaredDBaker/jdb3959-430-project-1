@@ -34,20 +34,28 @@
    };
  
    const sendPost = (e) => {
+     e.preventDefault(); 
+
+     const whatIfForm = e.target;
+
+     const whatIfAction = whatIfForm.getAttribute("action");
+     const whatIfMethod = whatIfForm.getAttribute("method");
+
      const questionField = document.querySelector("#questionField");
      const authorField = document.querySelector("#authorField");
      const formData = `question=${questionField.value}&author=${authorField.value}`;
-     console.log(formData);
+     //console.log(formData);
      const xhr = new XMLHttpRequest();
      xhr.onload = handleResponse;
-     xhr.open("POST","/add-what-if"); // hard-coding HTTP method and url
+     xhr.open(whatIfMethod,whatIfAction); // hard-coding HTTP method and url
      xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
      xhr.send(formData);
    };
  
    // `onclick` instead of `onsubmit`
    const init = () => {
-     document.querySelector('#submitBtn').onclick = sendPost;
+     //document.querySelector('#submitBtn').onclick = sendPost;
+     document.querySelector('#whatIfForm').onsubmit = sendPost;
    };
  
    window.onload = init;
@@ -71,7 +79,14 @@
         <h2>Suggest a What If!</h2>
 
         <p>Enter a new What if question:</p>
-        <p>
+        <form id="whatIfForm" action="/add-what-if" method="POST">
+          <label for="questionField">What If Question:</label>
+          <input id="questionField" type="text" name="question">
+          <label for="authorField">Author Name:</label>
+          <input id="authorField" type="text" name="author">
+          <input type="submit" value="Submit What If" />
+        </form>
+        <!-- <p>
             <label for="questionField">What If Question:</label>
             <input id="questionField" type="text">
         </p>
@@ -79,7 +94,7 @@
             <label for="authorField">Author Name:</label>
             <input id="authorField" type="text">
         </p>
-        <input id="submitBtn" type="button" value="Submit What If">
+        <input id="submitBtn" type="button" value="Submit What If"> -->
         <section id="response"></section>
     </main>
 

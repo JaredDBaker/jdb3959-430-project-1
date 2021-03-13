@@ -7,19 +7,30 @@ header{
     padding:1em;
   }
   
-  h1{
+h1{
     font-family: fantasy;
     filter: drop-shadow(5px 5px 2px #4444dd);
   }
 
-  #whatIfContainer hr{
+#whatIfContainer {
+    padding: 1em;
+  }
+#whatIfContainer hr{
     border-bottom:1px dashed rgb(180, 179, 179);
   }
+
+#whatIfCon{
+  border: 2px solid black;
+  padding: 1em;
+}
 
 img{
     display: block;
     margin-left: auto;
     margin-right: auto;
     height: 25%;
-  
 }
+
+/* #answerDiv{
+  display: none;
+} */

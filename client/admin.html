@@ -9,21 +9,27 @@
           const obj = JSON.parse(e.target.response); // turn it back into an object
           //console.log("obj=", obj);
           // now go ahead and update #jokeContainewr with the contents of the joke
-        let whatIf = document.querySelector("#whatIfContainer");
+          let whatIf = document.querySelector("#whatIfContainer");
 
           whatIf.innerHTML ="";
           for(let k = 0; k < obj.length; k+=1){
-            whatIf.innerHTML += `
-            <h3>${obj[k].q}</h3>
-            <h4>Author: ${obj[k].author}</h4>
-            <p>Answers: </p>
-            `;
+            let answers = "";
             if(obj[k].a.length > 0){
               for(let i = 0; i < obj[k].a.length; i+=1){
-                whatIf.innerHTML += `<p>${obj[k].a[i]}</p>`;
+                answers += `<p>${obj[k].a[i]}</p>`;
               }
             }
-            whatIf.innerHTML += "<hr>";
+
+            whatIf.innerHTML += `
+            <div id="whatIfCon">
+            <h3>${obj[k].q}</h3>
+            <h4>Author: ${obj[k].author}</h4>
+            <p>Answers: </p> 
+            ${answers}
+            <button id="deleteBtn">Delete</button>
+            </div>
+            <hr>
+            `;
           }
       }
    
@@ -31,7 +37,7 @@
       // remember that an `Event` object gets passed along every time that an event handler or listener calls a function
       // the `target` property of that event points at the element that sent the event, in this case a button
       //console.log(`An element of id=${e.target.id} was clicked!`);
-      let whatIfURL = "/what-if-list?limit=10";
+      let whatIfURL = "/what-if-list?limit=100";
 
       const xhr = new XMLHttpRequest();
       xhr.onload = handleResponse;

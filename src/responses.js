@@ -42,7 +42,7 @@ const getWhatIfJSON = (id = -1, xml) => {
   if (id === '-1') {
     number = Math.floor(Math.random() * whatIfs.length);
   }
-
+  console.log(number);
   if (xml) {
     const responseXML = `
     <whatIf>
@@ -70,16 +70,18 @@ const getManyWhatIfsJSON = (limit = 1, xml) => {
     if (i % temp.length === 0) { temp = under.shuffle(whatIfs); }
   }
   if (xml) {
-    let responseXML = '<jokes>';
+    let responseXML = '<WhatIfs>';
     let j = 0;
     while (j < shuffled.length) {
-      responseXML = `${responseXML} <joke>`;
-      responseXML = `${responseXML} <q>${shuffled[j].q}</q>`;
-      responseXML = `${responseXML} <a>${shuffled[j].a}</a>`;
-      responseXML = `${responseXML} </joke>`;
+      responseXML += `
+      <whatIf>
+      <q>${whatIfs[j].q}</q>
+      <author>${whatIfs[j].author}</author>
+      <a>${whatIfs[j].a}</a>
+      </whatIf>`;
       j += 1;
     }
-    responseXML = `${responseXML} </jokes>`;
+    responseXML = `${responseXML} </WhatIfs>`;
     return responseXML;
   }
   return JSON.stringify(whatIfs);
@@ -199,15 +201,24 @@ const addAnswer = (request, response, body, params) => {
   whatIfs[params.id].a.push(body.answer); // make a new answer
   // initialize values
 
-  responseCode = 201; // send "created" status code
+  responseCode = 204; // send "updated" status code
   responseJSON.id = whatIfs[whatIfs.length - 1].q;
-  responseJSON.message = 'Created Successfully';
+  responseJSON.message = 'Added Answer';
   return sendJSONResponse(request, response, responseCode, responseJSON);
 };
+
+// const deleteWhatIf = (request, response, params) => {
+//   responseCode = 204; // send "updated" status code
+//   responseJSON.id = whatIfs[whatIfs.length - 1].q;
+//   responseJSON.message = 'Delete What If';
+//   delete whatIfs[params.if];
+//   return sendJSONResponse(request, response, responseCode, responseJSON);
+// };
 
 module.exports = {
   getWhatIfResponse,
   getManyWhatIfsResponse,
   addWhatIf,
   addAnswer,
+  // deleteWhatIf,
 };
